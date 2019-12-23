@@ -340,7 +340,7 @@ class CallGraph:
             self._link_nodes()
 
         elif level == 3:
-            pass
+            self._gather_nodes()
 
         else:
             pass
@@ -401,6 +401,9 @@ class CallGraph:
             if len(linked_node) > 1:
                 linked_node = CallGraphLinkedNode(*linked_node)
                 self.resolve_multiple_nodes(linked_node)
+
+    def _gather_nodes(self):
+        pass
 
     def draw(self, name):
         dot = Digraph(
