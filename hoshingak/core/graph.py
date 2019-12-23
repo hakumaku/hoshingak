@@ -36,6 +36,10 @@ class CallGraphBaseNode:
                f'#{self.call_site}'
 
     @property
+    def color_index(self):
+        return self.symbol.fn_number
+
+    @property
     def is_root(self):
         return True if self.call_site == 0 else False
 
@@ -237,16 +241,17 @@ class CallGraphLinkedNode(CallGraphMultipleNodes):
 
 
 class CallGraph:
+    COLOR_TABLE = [
+        '#fc0303', '#fca103', '#fcfc03', '#8cfc03',
+        '#14fc03', '#03fcad', '#03fcf8', '#03c6fc',
+        '#0356fc', '#4e03fc', '#ad03fc', '#fc03f4',
+        '#fc0398', '#fc0339', '#b1fc03', '#613387',
+    ]
+
     def __init__(self, symtab: SymbolTable):
         self.symtab = symtab
         self.nodes: Dict[int, Type[CallGraphBaseNode]] = dict()
         self.root = None
-        self.colors = [
-            '#fc0303', '#fca103', '#fcfc03', '#8cfc03',
-            '#14fc03', '#03fcad', '#03fcf8', '#03c6fc',
-            '#0356fc', '#4e03fc', '#ad03fc', '#fc03f4',
-            '#fc0398', '#fc0339', '#b1fc03', '#613387',
-        ]
 
     @property
     def size(self):
@@ -402,18 +407,14 @@ class CallGraph:
             name=f'Call graph by GCC of {name}',
             comment='Call Tree',
             strict=True,
-            format='JPG',
+            format='PDF',
             graph_attr={
-                'ordering': 'out'
+                'ordering': 'out',
+                'compound': 'true'
             })
-        # TODO: 함수에따른 색 주기 미구현.
-        # color_table = dict()
-        # for index, key in enumerate(self.symtab.prefixes.keys()):
-        #     color_table[key] = self.colors[index]
-
-        node: CallGraphNode
+        self.normalize_frequency()
         for node in self.nodes.values():
-            # color = color_table[node.basename]
+            label_contents = f''
             if isinstance(node, CallGraphMergedNode):
                 label_contents = f'Merged Node'
 
@@ -421,32 +422,36 @@ class CallGraph:
                 label_contents = f'Linked Node'
 
             else:
-                label_contents = ''
+                pass
 
-            dot.node(name=f'{node.name}', xlabel=label_contents,
+            dot.node(name=f'{node.name}', xlabel=f'{label_contents}',
                      fontname='NanumSquare', width='2', height='1', shape='box',
-                     penwidth=f'2', color='#ff0000',
-                     style='filled', fillcolor=f'white')
+                     penwidth=f'{self.get_penwidth(node)}', color='#ff0000',
+                     style='filled',
+                     fillcolor=f'{self.get_color(node.color_index)}')
+
             for edge in node.incoming_nodes.values():
                 dot.edge(str(edge.name), str(node.name), label=str(node.order))
 
         dot.render()
+
+    def get_color(self, index):
+        return CallGraph.COLOR_TABLE[index % 16]
 
     def normalize_frequency(self, step=10):
         """
         Get minimum call count and maximum call count.
         Divide them into 10 sections.
         """
-        v: Symbol
-        functions = [v.count for k, v in self.symtab]
+        functions = [v.call_count for k, v in self.symtab]
         min_call_count = min(functions)
         max_call_count = max(functions)
         step_value = int((max_call_count - min_call_count) / step)
         self.frequency = [v for v in range(min_call_count, max_call_count, step_value)]
 
-    def get_penwidth(self, node: Symbol):
+    def get_penwidth(self, node: Type[CallGraphBaseNode]):
         for index, level in enumerate(self.frequency):
-            if not node.count >= level:
+            if not node.symbol.call_count >= level:
                 return index
 
         return len(self.frequency) * 2
@@ -457,7 +462,7 @@ class CallGraph:
         uncalled_count = 0
         v: Symbol
         for k, v in self.symtab:
-            if v.count == 0:
+            if v.call_count == 0:
                 uncalled_count += 1
         called_count = total - uncalled_count
 
@@ -466,7 +471,7 @@ class CallGraph:
         print(f'Function not invoked: {uncalled_count}')
         print(f'Details:')
         for k, v in self.symtab:
-            if v.count == 0:
+            if v.call_count == 0:
                 print(f'\t{v}')
 
     def pretty_print(self):

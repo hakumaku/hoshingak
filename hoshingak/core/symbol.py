@@ -20,7 +20,7 @@ class Symbol:
         self.section = tokens[3]
         self.offset = int(tokens[4], 16)
         self.prefix = prefix
-        self.fn_number = self._get_fn_number()
+        self.fn_number = self._get_fn_number_counter()
         self.name = tokens[5]
         self.call_count = 0
 
@@ -33,9 +33,9 @@ class Symbol:
         else:
             return False
 
-    def _get_fn_number(self):
+    def _get_fn_number_counter(self):
         number = self.NUM_SYMBOL
-        self.NUM_SYMBOL += 1
+        Symbol.NUM_SYMBOL += 1
         return number
 
 
@@ -69,7 +69,7 @@ class SymbolTable(MutableMapping):
         return item in self._name_table
 
     def __iter__(self) -> Iterable:
-        return iter(self._name_table)
+        return iter(self._name_table.items())
 
     def __len__(self) -> int:
         return len(self._name_table.values())
