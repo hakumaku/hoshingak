@@ -93,22 +93,16 @@ class CallGraphMultipleNodes(CallGraphBaseNode):
             self.__dict__[k] = copy.deepcopy(v)
         self.nodes: List[CallGraphNode] = [*args]
 
-        # TODO: 버그있음 이 부분. 링킹이 잘 안됨.
-        # Re-link all incoming nodes.
-        # 1. Combine all incoming nodes.
-        # 2. Set outgoing_node of the incoming nodes to this.
-        for node in self.nodes:
-            for inode in list(node.incoming_nodes.values()):
-                inode.dislink(node)
-                inode.link(self)
-        # Dislink the outgoing node.
-        outgoing_node = next(iter(first_node.outgoing_nodes.values()))
-        for node in list(outgoing_node.incoming_nodes.values()):
-            node.dislink(outgoing_node)
-        self.link(outgoing_node)
-
     def check_condition(self, *args: CallGraphNode):
         raise Exception('self.check_condition is not implemented.')
+
+    def pretty_print(self):
+        super().pretty_print()
+        print(f'\tHaving:')
+        for node in self.nodes:
+            print(f'\t\t{node}', end=', ')
+        else:
+            print()
 
 
 class CallGraphNode(CallGraphBaseNode):
@@ -150,6 +144,19 @@ class CallGraphMergedNode(CallGraphMultipleNodes):
 
     def __init__(self, *args: CallGraphNode):
         super().__init__(*args)
+        # Re-link all incoming nodes.
+        # 1. Combine all incoming nodes.
+        # 2. Set outgoing_node of the incoming nodes to this.
+        first_node = self.nodes[0]
+        for node in self.nodes:
+            for inode in list(node.incoming_nodes.values()):
+                inode.dislink(node)
+                inode.link(self)
+        # Dislink the outgoing node.
+        outgoing_node = next(iter(first_node.outgoing_nodes.values()))
+        for node in list(outgoing_node.incoming_nodes.values()):
+            node.dislink(outgoing_node)
+        self.link(outgoing_node)
 
     def __str__(self):
         return f'{self.basename}/{self.symbol.name}#Merged'
@@ -188,6 +195,21 @@ class CallGraphLinkedNode(CallGraphMultipleNodes):
 
     def __init__(self, *args: CallGraphNode):
         super().__init__(*args)
+        # inode -> node1 -> node2 -> node3 -> onode
+        # becomes the following.
+        # inode -> node1 [node1, node2, node3] -> onode
+        last_node = self.nodes[-1]
+        onode = next(iter(last_node.outgoing_nodes.values()))
+
+        # Remove all links in self.nodes
+        for node in self.nodes:
+            node.incoming_nodes.popitem()
+            node.outgoing_nodes.popitem()
+
+        # Link properly
+        onode.incoming_nodes.pop(last_node.call_site)
+        onode.incoming_nodes[self.call_site] = self.nodes[0]
+        self.outgoing_nodes[onode.call_site] = onode
 
     def __str__(self):
         return f'{self.basename}/{self.symbol.name}#Linked'
@@ -225,7 +247,10 @@ class CallGraph:
             '#0356fc', '#4e03fc', '#ad03fc', '#fc03f4',
             '#fc0398', '#fc0339', '#b1fc03', '#613387',
         ]
-        self.frequency = None
+
+    @property
+    def size(self):
+        return len(self.nodes)
 
     def create(self, call_trace):
         """
@@ -293,6 +318,11 @@ class CallGraph:
         node.inc_count()
         return node
 
+    def resolve_multiple_nodes(self, multiple_nodes: Type[CallGraphMultipleNodes]):
+        for node in multiple_nodes.nodes:
+            self.nodes.pop(node.call_site)
+        self.nodes[multiple_nodes.call_site] = multiple_nodes
+
     def decrease_context_sensitivity(self, level=0):
         if level == 0:
             pass
@@ -328,6 +358,7 @@ class CallGraph:
         for members in group.values():
             try:
                 merged_node = CallGraphMergedNode(*members)
+                self.resolve_multiple_nodes(merged_node)
             except TypeError:
                 continue
 
@@ -364,13 +395,14 @@ class CallGraph:
 
             if len(linked_node) > 1:
                 linked_node = CallGraphLinkedNode(*linked_node)
+                self.resolve_multiple_nodes(linked_node)
 
     def draw(self, name):
         dot = Digraph(
             name=f'Call graph by GCC of {name}',
             comment='Call Tree',
             strict=True,
-            format='PDF',
+            format='JPG',
             graph_attr={
                 'ordering': 'out'
             })
@@ -383,11 +415,9 @@ class CallGraph:
         for node in self.nodes.values():
             # color = color_table[node.basename]
             if isinstance(node, CallGraphMergedNode):
-                print('I am merged.')
                 label_contents = f'Merged Node'
 
             elif isinstance(node, CallGraphLinkedNode):
-                print('I am linked.')
                 label_contents = f'Linked Node'
 
             else:

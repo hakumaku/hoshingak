@@ -7,6 +7,8 @@ from typing import Union, List, Dict, Iterable,\
 
 
 class Symbol:
+    NUM_SYMBOL = 0
+
     def __init__(self, prefix: str, tokens: List[str]):
         """
         :param prefix: is a name of .c file that hold the given function.
@@ -18,8 +20,12 @@ class Symbol:
         self.section = tokens[3]
         self.offset = int(tokens[4], 16)
         self.prefix = prefix
+        self.fn_number = self._get_fn_number()
         self.name = tokens[5]
         self.call_count = 0
+
+    def __str__(self):
+        return f'{self.prefix}/{self.name}'
 
     def is_caller(self, address):
         if self.address <= address <= self.address + self.offset:
@@ -27,8 +33,10 @@ class Symbol:
         else:
             return False
 
-    def __str__(self):
-        return f'{self.prefix}/{self.name}'
+    def _get_fn_number(self):
+        number = self.NUM_SYMBOL
+        self.NUM_SYMBOL += 1
+        return number
 
 
 class SymbolTable(MutableMapping):
