@@ -32,7 +32,7 @@ class CallGraphBaseNode:
 
     @property
     def name(self):
-        return f'{self.basename}/{self.symbol.name}({self.total_count})' \
+        return f'{self.basename}/{self.symbol.name}({self.call_count})' \
                f'#{self.call_site}'
 
     @property
@@ -84,6 +84,33 @@ class CallGraphBaseNode:
                 print(f'\t\t{i + 1}. {v}')
 
 
+class CallGraphMultipleNodes(CallGraphBaseNode):
+    def __init__(self, *args: CallGraphNode):
+        if not self.check_condition(*args):
+            raise TypeError
+        first_node = args[0]
+        for k, v in first_node.__dict__.items():
+            self.__dict__[k] = copy.deepcopy(v)
+        self.nodes: List[CallGraphNode] = [*args]
+
+        # TODO: 버그있음 이 부분. 링킹이 잘 안됨.
+        # Re-link all incoming nodes.
+        # 1. Combine all incoming nodes.
+        # 2. Set outgoing_node of the incoming nodes to this.
+        for node in self.nodes:
+            for inode in list(node.incoming_nodes.values()):
+                inode.dislink(node)
+                inode.link(self)
+        # Dislink the outgoing node.
+        outgoing_node = next(iter(first_node.outgoing_nodes.values()))
+        for node in list(outgoing_node.incoming_nodes.values()):
+            node.dislink(outgoing_node)
+        self.link(outgoing_node)
+
+    def check_condition(self, *args: CallGraphNode):
+        raise Exception('self.check_condition is not implemented.')
+
+
 class CallGraphNode(CallGraphBaseNode):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -113,7 +140,7 @@ class CallGraphNode(CallGraphBaseNode):
                 sys.exit(1)
 
 
-class CallGraphMergedNode(CallGraphBaseNode):
+class CallGraphMergedNode(CallGraphMultipleNodes):
     """
     It is a group of nodes, each of which has the same information
     (the same function), different call site and
@@ -122,31 +149,12 @@ class CallGraphMergedNode(CallGraphBaseNode):
     """
 
     def __init__(self, *args: CallGraphNode):
-        if not self.check_condition(*args):
-            raise TypeError
-        self.nodes: List[CallGraphNode] = [*args]
-        first_node = self.nodes[0]
-        for k, v in first_node.__dict__.items():
-            self.__dict__[k] = copy.deepcopy(v)
-
-        # Re-link all incoming nodes.
-        # 1. Combine all incoming nodes.
-        # 2. Set outgoing_node of the incoming nodes to this.
-        for node in self.nodes:
-            for inode in list(node.incoming_nodes.values()):
-                inode.dislink(node)
-                inode.link(self)
-        # Dislink the outgoing node.
-        outgoing_node = list(first_node.outgoing_nodes.values())[0]
-        for node in list(outgoing_node.incoming_nodes.values()):
-            node.dislink(outgoing_node)
-        self.link(outgoing_node)
+        super().__init__(*args)
 
     def __str__(self):
         return f'{self.basename}/{self.symbol.name}#Merged'
 
-    @staticmethod
-    def check_condition(*args: CallGraphNode) -> bool:
+    def check_condition(self, *args: CallGraphNode) -> bool:
         node = args[0]
         symbol = node.symbol
         if len(node.outgoing_nodes) != 1:
@@ -171,26 +179,20 @@ class CallGraphMergedNode(CallGraphBaseNode):
         return True
 
 
-class CallGraphLinkedNode(CallGraphBaseNode):
+class CallGraphLinkedNode(CallGraphMultipleNodes):
     """
     It is a group of nodes, each of which has only one outgoing edge
     and one incoming edge.
     This is generated at context sensitivity 2.
     """
 
-    def __init__(self, *args):
-        if not self.check_condition(*args):
-            raise TypeError
-        self.nodes: List[CallGraphNode] = [*args]
-        first_node = self.nodes[0]
-        for k, v in first_node.__dict__.items():
-            self.__dict__[k] = copy.deepcopy(v)
+    def __init__(self, *args: CallGraphNode):
+        super().__init__(*args)
 
     def __str__(self):
         return f'{self.basename}/{self.symbol.name}#Linked'
 
-    @staticmethod
-    def check_condition(*args: CallGraphNode) -> bool:
+    def check_condition(self, *args: CallGraphNode) -> bool:
         node = args[0]
         if len(node.outgoing_nodes) != 1:
             if (len(node.incoming_nodes) != 1
@@ -326,7 +328,6 @@ class CallGraph:
         for members in group.values():
             try:
                 merged_node = CallGraphMergedNode(*members)
-                merged_node.pretty_print()
             except TypeError:
                 continue
 
@@ -361,10 +362,8 @@ class CallGraph:
                 except KeyError:
                     break
 
-            # TODO: 실질적인 반영이 아직 안댐. 색 테이블 완성시키고, 그리기까지.
             if len(linked_node) > 1:
                 linked_node = CallGraphLinkedNode(*linked_node)
-                linked_node.pretty_print()
 
     def draw(self, name):
         dot = Digraph(
@@ -375,26 +374,32 @@ class CallGraph:
             graph_attr={
                 'ordering': 'out'
             })
-        color_table = dict()
-        for index, key in enumerate(self.symtab.prefixes.keys()):
-            color_table[key] = self.colors[index]
-
-        if not self.frequency:
-            self.normalize_frequency()
+        # TODO: 함수에따른 색 주기 미구현.
+        # color_table = dict()
+        # for index, key in enumerate(self.symtab.prefixes.keys()):
+        #     color_table[key] = self.colors[index]
 
         node: CallGraphNode
         for node in self.nodes.values():
-            color = color_table[node.basename]
-            if node.is_merged:
-                label_contents = f'(Merged Node)'
+            # color = color_table[node.basename]
+            if isinstance(node, CallGraphMergedNode):
+                print('I am merged.')
+                label_contents = f'Merged Node'
+
+            elif isinstance(node, CallGraphLinkedNode):
+                print('I am linked.')
+                label_contents = f'Linked Node'
+
             else:
                 label_contents = ''
+
             dot.node(name=f'{node.name}', xlabel=label_contents,
                      fontname='NanumSquare', width='2', height='1', shape='box',
-                     penwidth=f'{self.get_penwidth(node)}', color='#ff0000',
-                     style='filled', fillcolor=f'{color}')
+                     penwidth=f'2', color='#ff0000',
+                     style='filled', fillcolor=f'white')
             for edge in node.incoming_nodes.values():
                 dot.edge(str(edge.name), str(node.name), label=str(node.order))
+
         dot.render()
 
     def normalize_frequency(self, step=10):

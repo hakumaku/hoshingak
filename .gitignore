@@ -1,4 +1,7 @@
 venv
+*.pdf
+*.gv
+__pycache__
 *.objdump
 *.idea
 
