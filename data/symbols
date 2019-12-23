@@ -1,0 +1,309 @@
+
+/home/haku/PycharmProjects/project/resources/zlib/example:     file format elf64-x86-64
+
+SYMBOL TABLE:
+00000000000002a8 l    d  .interp	0000000000000000              .interp
+00000000000002c4 l    d  .note.gnu.build-id	0000000000000000              .note.gnu.build-id
+00000000000002e8 l    d  .note.ABI-tag	0000000000000000              .note.ABI-tag
+0000000000000308 l    d  .gnu.hash	0000000000000000              .gnu.hash
+00000000000006d8 l    d  .dynsym	0000000000000000              .dynsym
+0000000000001440 l    d  .dynstr	0000000000000000              .dynstr
+0000000000001a86 l    d  .gnu.version	0000000000000000              .gnu.version
+0000000000001ba8 l    d  .gnu.version_r	0000000000000000              .gnu.version_r
+0000000000001c18 l    d  .rela.dyn	0000000000000000              .rela.dyn
+0000000000001f90 l    d  .rela.plt	0000000000000000              .rela.plt
+0000000000003000 l    d  .init	0000000000000000              .init
+0000000000003020 l    d  .plt	0000000000000000              .plt
+00000000000031e0 l    d  .text	0000000000000000              .text
+0000000000019418 l    d  .fini	0000000000000000              .fini
+000000000001a000 l    d  .rodata	0000000000000000              .rodata
+000000000001deb0 l    d  .eh_frame_hdr	0000000000000000              .eh_frame_hdr
+000000000001e3e0 l    d  .eh_frame	0000000000000000              .eh_frame
+0000000000020c60 l    d  .init_array	0000000000000000              .init_array
+0000000000020c70 l    d  .fini_array	0000000000000000              .fini_array
+0000000000020c80 l    d  .data.rel.ro	0000000000000000              .data.rel.ro
+0000000000020dd0 l    d  .dynamic	0000000000000000              .dynamic
+0000000000020fc0 l    d  .got	0000000000000000              .got
+0000000000021000 l    d  .got.plt	0000000000000000              .got.plt
+00000000000210f0 l    d  .data	0000000000000000              .data
+0000000000021120 l    d  .bss	0000000000000000              .bss
+0000000000000000 l    d  .comment	0000000000000000              .comment
+0000000000000000 l    d  .debug_aranges	0000000000000000              .debug_aranges
+0000000000000000 l    d  .debug_info	0000000000000000              .debug_info
+0000000000000000 l    d  .debug_abbrev	0000000000000000              .debug_abbrev
+0000000000000000 l    d  .debug_line	0000000000000000              .debug_line
+0000000000000000 l    d  .debug_str	0000000000000000              .debug_str
+0000000000000000 l    df *ABS*	0000000000000000              init.c
+0000000000000000 l    df *ABS*	0000000000000000              crtstuff.c
+0000000000003210 l     F .text	0000000000000000              deregister_tm_clones
+0000000000003240 l     F .text	0000000000000000              register_tm_clones
+0000000000003280 l     F .text	0000000000000000              __do_global_dtors_aux
+0000000000021128 l     O .bss	0000000000000001              completed.7392
+0000000000020c70 l     O .fini_array	0000000000000000              __do_global_dtors_aux_fini_array_entry
+00000000000032d0 l     F .text	0000000000000000              frame_dummy
+0000000000020c60 l     O .init_array	0000000000000000              __frame_dummy_init_array_entry
+0000000000000000 l    df *ABS*	0000000000000000              example.c
+0000000000021100 l     O .data	000000000000000e              hello
+000000000001a008 l     O .rodata	0000000000000006              dictionary
+0000000000021130 l     O .bss	0000000000000008              dictId
+0000000000021138 l     O .bss	0000000000000008              zalloc
+0000000000021140 l     O .bss	0000000000000008              zfree
+0000000000021110 l     O .data	0000000000000008              myVersion.4160
+0000000000000000 l    df *ABS*	0000000000000000              deflate.c
+0000000000020c80 l     O .data.rel.ro	00000000000000a0              configuration_table
+0000000000008765 l     F .text	0000000000000858              deflate_stored
+0000000000008fbd l     F .text	0000000000000866              deflate_fast
+0000000000009823 l     F .text	0000000000000a87              deflate_slow
+0000000000004ef8 l     F .text	00000000000000f0              slide_hash
+000000000001a3c5 l     O .rodata	0000000000000007              my_version.3853
+00000000000054c7 l     F .text	00000000000000f5              deflateStateCheck
+00000000000082b1 l     F .text	00000000000004b4              fill_window
+0000000000007de0 l     F .text	00000000000001b7              lm_init
+0000000000006363 l     F .text	0000000000000087              putShortMSB
+00000000000063ea l     F .text	0000000000000120              flush_pending
+000000000000a9a5 l     F .text	0000000000000397              deflate_huff
+000000000000a2aa l     F .text	00000000000006fb              deflate_rle
+0000000000007cb6 l     F .text	000000000000012a              read_buf
+0000000000007f97 l     F .text	000000000000031a              longest_match
+0000000000000000 l    df *ABS*	0000000000000000              inflate.c
+000000000000ad3c l     F .text	00000000000000ac              inflateStateCheck
+000000000000b3b6 l     F .text	0000000000000069              fixedtables
+000000000001a640 l     O .rodata	0000000000000800              lenfix.3811
+000000000001ae40 l     O .rodata	0000000000000080              distfix.3812
+000000000000b41f l     F .text	000000000000023e              updatewindow
+000000000001aec0 l     O .rodata	0000000000000026              order.3840
+000000000000decb l     F .text	00000000000000c4              syncsearch
+0000000000000000 l    df *ABS*	0000000000000000              inftrees.c
+000000000001af40 l     O .rodata	000000000000003e              lbase.3716
+000000000001af80 l     O .rodata	000000000000003e              lext.3717
+000000000001afc0 l     O .rodata	0000000000000040              dbase.3718
+000000000001b000 l     O .rodata	0000000000000040              dext.3719
+0000000000000000 l    df *ABS*	0000000000000000              trees.c
+000000000001b040 l     O .rodata	0000000000000074              extra_lbits
+000000000001b0c0 l     O .rodata	0000000000000078              extra_dbits
+000000000001b140 l     O .rodata	000000000000004c              extra_blbits
+000000000001b190 l     O .rodata	0000000000000013              bl_order
+000000000001b1c0 l     O .rodata	0000000000000480              static_ltree
+000000000001b640 l     O .rodata	0000000000000078              static_dtree
+000000000001b9c0 l     O .rodata	0000000000000074              base_length
+000000000001ba40 l     O .rodata	0000000000000078              base_dist
+0000000000020d20 l     O .data.rel.ro	0000000000000020              static_l_desc
+0000000000020d40 l     O .data.rel.ro	0000000000000020              static_d_desc
+0000000000020d60 l     O .data.rel.ro	0000000000000020              static_bl_desc
+000000000000efcc l     F .text	000000000000002d              tr_static_init
+000000000000f0d2 l     F .text	000000000000010a              init_block
+000000000000f1dc l     F .text	0000000000000294              pqdownheap
+000000000000f470 l     F .text	000000000000045c              gen_bitlen
+000000000000f8cc l     F .text	0000000000000126              gen_codes
+0000000000012c08 l     F .text	000000000000005c              bi_reverse
+000000000000f9f2 l     F .text	00000000000004b0              build_tree
+000000000000fea2 l     F .text	0000000000000211              scan_tree
+00000000000100b3 l     F .text	0000000000000cda              send_tree
+0000000000010d8d l     F .text	0000000000000111              build_bl_tree
+0000000000010e9e l     F .text	0000000000000638              send_all_trees
+0000000000012d97 l     F .text	00000000000000ff              bi_windup
+0000000000012c64 l     F .text	0000000000000133              bi_flush
+0000000000012b10 l     F .text	00000000000000f8              detect_data_type
+00000000000120bd l     F .text	0000000000000a53              compress_block
+0000000000000000 l    df *ABS*	0000000000000000              zutil.c
+0000000000000000 l    df *ABS*	0000000000000000              compress.c
+0000000000000000 l    df *ABS*	0000000000000000              uncompr.c
+0000000000000000 l    df *ABS*	0000000000000000              gzclose.c
+0000000000000000 l    df *ABS*	0000000000000000              gzlib.c
+000000000001368e l     F .text	00000000000000a9              gz_reset
+0000000000013737 l     F .text	00000000000003f6              gz_open
+0000000000000000 l    df *ABS*	0000000000000000              gzread.c
+000000000001469b l     F .text	0000000000000106              gz_load
+00000000000147a1 l     F .text	000000000000015d              gz_avail
+00000000000148fe l     F .text	00000000000002eb              gz_look
+0000000000014be9 l     F .text	00000000000001ab              gz_decomp
+0000000000014d94 l     F .text	0000000000000154              gz_fetch
+0000000000014ee8 l     F .text	00000000000000f3              gz_skip
+0000000000014fdb l     F .text	0000000000000262              gz_read
+0000000000000000 l    df *ABS*	0000000000000000              gzwrite.c
+0000000000015b7c l     F .text	00000000000001fc              gz_init
+0000000000015d78 l     F .text	00000000000002cc              gz_comp
+0000000000016044 l     F .text	000000000000012a              gz_zero
+000000000001616e l     F .text	000000000000026a              gz_write
+0000000000000000 l    df *ABS*	0000000000000000              injection.c
+0000000000021148 l     O .bss	0000000000000008              finstrument_fp
+0000000000016fa9 l     F .text	00000000000000c1              fprint_dlinfo
+0000000000000000 l    df *ABS*	0000000000000000              adler32.c
+00000000000176c3 l     F .text	0000000000000188              adler32_combine_
+0000000000000000 l    df *ABS*	0000000000000000              crc32.c
+000000000001be60 l     O .rodata	0000000000002000              crc_table
+0000000000017a64 l     F .text	0000000000000623              crc32_little
+0000000000018087 l     F .text	00000000000006b6              crc32_big
+000000000001873d l     F .text	0000000000000076              gf2_matrix_times
+00000000000187b3 l     F .text	0000000000000090              gf2_matrix_square
+0000000000018843 l     F .text	00000000000001de              crc32_combine_
+0000000000000000 l    df *ABS*	0000000000000000              inffast.c
+0000000000000000 l    df *ABS*	0000000000000000              crtstuff.c
+000000000001faa4 l     O .eh_frame	0000000000000000              __FRAME_END__
+0000000000000000 l    df *ABS*	0000000000000000              
+0000000000014538 l     F .text	0000000000000163              gz_error
+0000000000011f2e l     F .text	000000000000018f              _tr_tally
+000000000000eff9 l     F .text	00000000000000d9              _tr_init
+0000000000019418 l     F .fini	0000000000000000              _fini
+0000000000011a89 l     F .text	00000000000004a5              _tr_flush_block
+00000000000114d6 l     F .text	0000000000000286              _tr_stored_block
+0000000000012fe3 l     F .text	0000000000000045              zcfree
+000000000001b8c0 l     O .rodata	0000000000000100              _length_code
+0000000000020c70 l       .init_array	0000000000000000              __init_array_end
+00000000000210f8 l     O .data	0000000000000000              __dso_handle
+0000000000018adf l     F .text	00000000000008c1              inflate_fast
+000000000000e701 l     F .text	00000000000008cb              inflate_table
+0000000000020dd0 l     O .dynamic	0000000000000000              _DYNAMIC
+0000000000012f8c l     F .text	0000000000000057              zcalloc
+000000000001179d l     F .text	00000000000002ec              _tr_align
+0000000000020c60 l       .init_array	0000000000000000              __init_array_start
+000000000001deb0 l       .eh_frame_hdr	0000000000000000              __GNU_EH_FRAME_HDR
+0000000000021118 l     O .data	0000000000000000              __TMC_END__
+0000000000021000 l     O .got.plt	0000000000000000              _GLOBAL_OFFSET_TABLE_
+000000000001b6c0 l     O .rodata	0000000000000200              _dist_code
+000000000001175c l     F .text	0000000000000041              _tr_flush_bits
+0000000000003000 l     F .init	0000000000000000              _init
+0000000000017909 g     F .text	0000000000000040              get_crc_table
+0000000000019410 g     F .text	0000000000000005              __libc_csu_fini
+0000000000016f3d g     F .text	0000000000000016              main_destructor
+0000000000017949 g     F .text	00000000000000be              crc32_z
+00000000000167ef g     F .text	000000000000025a              gzvprintf
+0000000000004541 g     F .text	000000000000028b              test_sync
+000000000001360f g     F .text	000000000000007f              gzclose
+0000000000013dfd g     F .text	00000000000002de              gzseek64
+0000000000000000       F *UND*	0000000000000000              free@@GLIBC_2.2.5
+0000000000013230 g     F .text	0000000000000068              compress
+0000000000000000       F *UND*	0000000000000000              __errno_location@@GLIBC_2.2.5
+000000000000e52c g     F .text	0000000000000095              inflateValidate
+0000000000000000  w      *UND*	0000000000000000              _ITM_deregisterTMCloneTable
+00000000000210f0  w      .data	0000000000000000              data_start
+000000000000b65d g     F .text	00000000000024e9              inflate
+000000000000dc03 g     F .text	000000000000010b              inflateGetDictionary
+0000000000016f53 g     F .text	000000000000002b              __cyg_profile_func_enter
+0000000000000000       F *UND*	0000000000000000              puts@@GLIBC_2.2.5
+0000000000015a66 g     F .text	0000000000000116              gzclose_r
+00000000000157d3 g     F .text	000000000000020b              gzgets
+0000000000015430 g     F .text	000000000000011c              gzgetc
+0000000000000000       F *UND*	0000000000000000              vsnprintf@@GLIBC_2.2.5
+000000000001a380 g     O .rodata	0000000000000045              deflate_copyright
+0000000000003b32 g     F .text	000000000000025a              test_inflate
+0000000000018a80 g     F .text	000000000000005f              crc32_combine64
+0000000000017a07 g     F .text	000000000000005d              crc32
+0000000000000000       F *UND*	0000000000000000              clock_gettime@@GLIBC_2.17
+0000000000000000       F *UND*	0000000000000000              write@@GLIBC_2.2.5
+000000000000ade8 g     F .text	0000000000000165              inflateResetKeep
+0000000000013c8c g     F .text	00000000000000b7              gzbuffer
+0000000000021118 g       .data	0000000000000000              _edata
+0000000000013bdf g     F .text	00000000000000ad              gzdopen
+0000000000000000       F *UND*	0000000000000000              fclose@@GLIBC_2.2.5
+0000000000016a49 g     F .text	0000000000000111              gzprintf
+000000000001af00 g     O .rodata	0000000000000030              inflate_copyright
+00000000000135ad g     F .text	0000000000000062              uncompress
+000000000000e4b7 g     F .text	0000000000000075              inflateUndermine
+0000000000000000       F *UND*	0000000000000000              strlen@@GLIBC_2.2.5
+00000000000142f6 g     F .text	0000000000000051              gzoffset
+0000000000000000       F *UND*	0000000000000000              __stack_chk_fail@@GLIBC_2.4
+0000000000005d06 g     F .text	0000000000000132              deflatePrime
+0000000000014499 g     F .text	000000000000009f              gzclearerr
+000000000000e67f g     F .text	0000000000000082              inflateCodesUsed
+00000000000140db g     F .text	0000000000000062              gzseek
+0000000000000000       F *UND*	0000000000000000              printf@@GLIBC_2.2.5
+000000000001532b g     F .text	0000000000000105              gzfread
+0000000000012f33 g     F .text	0000000000000059              zError
+0000000000000000       F *UND*	0000000000000000              snprintf@@GLIBC_2.2.5
+0000000000005b90 g     F .text	0000000000000064              deflateReset
+0000000000000000       F *UND*	0000000000000000              dladdr@@GLIBC_2.2.5
+000000000001784b g     F .text	000000000000005f              adler32_combine
+000000000000650a g     F .text	00000000000012e9              deflate
+0000000000013298 g     F .text	0000000000000069              compressBound
+0000000000000000       F *UND*	0000000000000000              memset@@GLIBC_2.2.5
+000000000000e5c1 g     F .text	00000000000000be              inflateMark
+00000000000178aa g     F .text	000000000000005f              adler32_combine64
+0000000000014347 g     F .text	0000000000000091              gzeof
+0000000000000000       F *UND*	0000000000000000              close@@GLIBC_2.2.5
+0000000000003d8c g     F .text	0000000000000339              test_large_deflate
+000000000001413d g     F .text	00000000000000a0              gztell64
+000000000000505f g     F .text	0000000000000468              deflateInit2_
+000000000000593b g     F .text	00000000000000fc              deflateGetDictionary
+0000000000000000       F *UND*	0000000000000000              memchr@@GLIBC_2.2.5
+0000000000000000       F *UND*	0000000000000000              read@@GLIBC_2.2.5
+0000000000000000       F *UND*	0000000000000000              __libc_start_main@@GLIBC_2.2.5
+0000000000005e38 g     F .text	0000000000000283              deflateParams
+0000000000000000       F *UND*	0000000000000000              calloc@@GLIBC_2.2.5
+00000000000210f0 g       .data	0000000000000000              __data_start
+0000000000000000       F *UND*	0000000000000000              strcmp@@GLIBC_2.2.5
+0000000000005bf4 g     F .text	000000000000007c              deflateSetHeader
+0000000000016b5a g     F .text	00000000000000de              gzflush
+0000000000004fe8 g     F .text	0000000000000077              deflateInit_
+0000000000013b86 g     F .text	0000000000000059              gzopen64
+000000000001523d g     F .text	00000000000000ee              gzread
+0000000000000000       F *UND*	0000000000000000              fprintf@@GLIBC_2.2.5
+0000000000016c38 g     F .text	0000000000000149              gzsetparams
+0000000000000000  w      *UND*	0000000000000000              __gmon_start__
+0000000000000000       F *UND*	0000000000000000              memcpy@@GLIBC_2.14
+0000000000013301 g     F .text	00000000000002ac              uncompress2
+000000000001a000 g     O .rodata	0000000000000004              _IO_stdin_used
+000000000000e1cb g     F .text	0000000000000084              inflateSyncPoint
+000000000000db46 g     F .text	00000000000000bd              inflateEnd
+0000000000016738 g     F .text	00000000000000b7              gzputs
+000000000000dd0e g     F .text	0000000000000129              inflateSetDictionary
+0000000000017666 g     F .text	000000000000005d              adler32
+0000000000006160 g     F .text	0000000000000203              deflateBound
+00000000000193a0 g     F .text	0000000000000065              __libc_csu_init
+0000000000000000       F *UND*	0000000000000000              malloc@@GLIBC_2.2.5
+00000000000038f1 g     F .text	0000000000000241              test_deflate
+000000000000de37 g     F .text	0000000000000094              inflateGetHeader
+00000000000143d8 g     F .text	00000000000000c1              gzerror
+0000000000016588 g     F .text	00000000000001b0              gzputc
+0000000000021150 g       .bss	0000000000000000              _end
+000000000000b2b9 g     F .text	00000000000000fd              inflatePrime
+00000000000031e0 g     F .text	000000000000002f              _start
+0000000000016d81 g     F .text	0000000000000165              gzclose_w
+00000000000077f3 g     F .text	0000000000000176              deflateEnd
+0000000000013d43 g     F .text	00000000000000ba              gzrewind
+00000000000163d8 g     F .text	00000000000000b7              gzwrite
+0000000000016ee6 g     F .text	0000000000000057              main_constructor
+000000000001422e g     F .text	00000000000000c8              gzoffset64
+000000000000e24f g     F .text	0000000000000268              inflateCopy
+0000000000021118 g       .bss	0000000000000000              __bss_start
+0000000000004c7f g     F .text	0000000000000279              main
+000000000000b25c g     F .text	000000000000005d              inflateInit_
+0000000000005c70 g     F .text	0000000000000096              deflatePending
+0000000000007969 g     F .text	000000000000034d              deflateCopy
+000000000001554c g     F .text	000000000000004a              gzgetc_
+00000000000042f2 g     F .text	000000000000024f              test_flush
+0000000000013b2d g     F .text	0000000000000059              gzopen
+0000000000018a21 g     F .text	000000000000005f              crc32_combine
+0000000000013028 g     F .text	0000000000000208              compress2
+0000000000000000       F *UND*	0000000000000000              open@@GLIBC_2.2.5
+0000000000000000       F *UND*	0000000000000000              fopen@@GLIBC_2.2.5
+000000000000b0ea g     F .text	0000000000000172              inflateInit2_
+000000000001648f g     F .text	00000000000000f9              gzfwrite
+00000000000159de g     F .text	0000000000000088              gzdirect
+00000000000049e0 g     F .text	000000000000029f              test_dict_inflate
+000000000000af4d g     F .text	000000000000008e              inflateReset
+0000000000012e96 g     F .text	0000000000000040              zlibVersion
+0000000000020d80 g     O .data.rel.ro	0000000000000050              z_errmsg
+00000000000047cc g     F .text	0000000000000214              test_dict_deflate
+0000000000000000       F *UND*	0000000000000000              exit@@GLIBC_2.2.5
+0000000000000000       F *UND*	0000000000000000              fwrite@@GLIBC_2.2.5
+0000000000000000       F *UND*	0000000000000000              lseek64@@GLIBC_2.2.5
+0000000000005a37 g     F .text	0000000000000159              deflateResetKeep
+000000000000afdb g     F .text	000000000000010f              inflateReset2
+00000000000141dd g     F .text	0000000000000051              gztell
+0000000000000000  w      *UND*	0000000000000000              _ITM_registerTMCloneTable
+0000000000015596 g     F .text	000000000000023d              gzungetc
+0000000000000000       F *UND*	0000000000000000              strerror@@GLIBC_2.2.5
+0000000000003442 g     F .text	00000000000004af              test_gzio
+00000000000055bc g     F .text	000000000000037f              deflateSetDictionary
+0000000000012ed6 g     F .text	000000000000005d              zlibCompileFlags
+000000000001706a g     F .text	00000000000005fc              adler32_z
+000000000000df8f g     F .text	000000000000023c              inflateSync
+0000000000000000  w    F *UND*	0000000000000000              __cxa_finalize@@GLIBC_2.2.5
+00000000000060bb g     F .text	00000000000000a5              deflateTune
+00000000000032d9 g     F .text	0000000000000169              test_compress
+00000000000040c5 g     F .text	000000000000022d              test_large_inflate
+0000000000016f7e g     F .text	000000000000002b              __cyg_profile_func_exit
+0000000000021120 g     O .bss	0000000000000008              stderr@@GLIBC_2.2.5
+
+
