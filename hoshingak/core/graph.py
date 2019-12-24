@@ -1,10 +1,8 @@
 from __future__ import annotations
-
 import copy
 import sys
 from typing import Union, List, Dict, Type
-
-from hoshingak.core.symbol import SymbolTable, Symbol
+from hoshingak.core.symbol import *
 from graphviz import Digraph
 
 
@@ -34,10 +32,6 @@ class CallGraphBaseNode:
     def name(self):
         return f'{self.basename}/{self.symbol.name}({self.call_count})' \
                f'#{self.call_site}'
-
-    @property
-    def color_index(self):
-        return self.symbol.fn_number
 
     @property
     def is_root(self):
@@ -323,12 +317,19 @@ class CallGraph:
         node.inc_count()
         return node
 
+    def get_color(self, node: Type[CallGraphBaseNode]) -> str:
+        prefixes = list(self.symtab.prefixes.keys())
+        return CallGraph.COLOR_TABLE[prefixes.index(node.symbol.prefix)]
+
     def resolve_multiple_nodes(self, multiple_nodes: Type[CallGraphMultipleNodes]):
         for node in multiple_nodes.nodes:
             self.nodes.pop(node.call_site)
         self.nodes[multiple_nodes.call_site] = multiple_nodes
 
-    def decrease_context_sensitivity(self, level=0):
+    def set_sensitivity(self, level=0):
+        """
+        Handles with context sensitivity of the graph.
+        """
         if level == 0:
             pass
 
@@ -407,7 +408,7 @@ class CallGraph:
 
     def draw(self, name):
         dot = Digraph(
-            name=f'Call graph by GCC of {name}',
+            name=f'Call graph by GCC',
             comment='Call Tree',
             strict=True,
             format='PDF',
@@ -431,15 +432,12 @@ class CallGraph:
                      fontname='NanumSquare', width='2', height='1', shape='box',
                      penwidth=f'{self.get_penwidth(node)}', color='#ff0000',
                      style='filled',
-                     fillcolor=f'{self.get_color(node.color_index)}')
+                     fillcolor=f'{self.get_color(node)}')
 
             for edge in node.incoming_nodes.values():
                 dot.edge(str(edge.name), str(node.name), label=str(node.order))
 
-        dot.render()
-
-    def get_color(self, index):
-        return CallGraph.COLOR_TABLE[index % 16]
+        dot.render(filename=f'{name}')
 
     def normalize_frequency(self, step=10):
         """
@@ -450,6 +448,8 @@ class CallGraph:
         min_call_count = min(functions)
         max_call_count = max(functions)
         step_value = int((max_call_count - min_call_count) / step)
+        if not step_value:
+            step_value = 1
         self.frequency = [v for v in range(min_call_count, max_call_count, step_value)]
 
     def get_penwidth(self, node: Type[CallGraphBaseNode]):

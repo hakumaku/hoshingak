@@ -4,4 +4,9 @@ venv
 __pycache__
 *.objdump
 *.idea
+data/sample/*.o
+data/sample/program
+data/sample/finstrument.txt
+*.pdf
+*.gv
 

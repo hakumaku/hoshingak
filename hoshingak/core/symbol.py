@@ -1,14 +1,12 @@
 from collections import MutableMapping
-from itertools import islice
 from os import PathLike
 from subprocess import check_call
 from typing import Union, List, Dict, Iterable,\
     Tuple, ValuesView, ItemsView, KeysView
+from hoshingak.core.graph import CallGraph
 
 
 class Symbol:
-    NUM_SYMBOL = 0
-
     def __init__(self, prefix: str, tokens: List[str]):
         """
         :param prefix: is a name of .c file that hold the given function.
@@ -20,7 +18,6 @@ class Symbol:
         self.section = tokens[3]
         self.offset = int(tokens[4], 16)
         self.prefix = prefix
-        self.fn_number = self._get_fn_number_counter()
         self.name = tokens[5]
         self.call_count = 0
 
@@ -33,20 +30,16 @@ class Symbol:
         else:
             return False
 
-    def _get_fn_number_counter(self):
-        number = self.NUM_SYMBOL
-        Symbol.NUM_SYMBOL += 1
-        return number
-
 
 class SymbolTable(MutableMapping):
-    OBJDUMP_SYMBOLS = 'symbols.objdump'
-    OBJDUMP_DECODED = 'debug_line.objdump'
+    OBJDUMP_SYMBOLS = '/tmp/symbols.objdump'
+    OBJDUMP_DECODED = '/tmp/debug_line.objdump'
 
     def __init__(self, symbol_file=OBJDUMP_SYMBOLS,
                  decoded_file=OBJDUMP_DECODED, *args, **kwargs):
         self.prefixes: Dict[str, (int, int)] = dict()
         self._name_table: Dict[int, Symbol] = dict()
+        self.graph = None
 
         if decoded_file:
             self.read_decoded_line(decoded_file)
@@ -98,6 +91,11 @@ class SymbolTable(MutableMapping):
 
     def clear(self) -> None:
         self._name_table.clear()
+
+    def create_graph(self, finstrument_file) -> CallGraph:
+        self.graph = CallGraph(self)
+        self.graph.create(finstrument_file)
+        return self.graph
 
     @classmethod
     def dump(cls, obj):
@@ -153,7 +151,7 @@ class SymbolTable(MutableMapping):
 
     def find_prefix(self, address: int) -> str:
         for prefix, (start_addr, end_addr) in self.prefixes.items():
-            if start_addr <= address <= end_addr:
+            if start_addr <= address < end_addr:
                 return prefix
 
         return 'Unknown'

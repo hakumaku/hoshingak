@@ -4,7 +4,6 @@ from hoshingak.core.graph import CallGraph
 
 
 def main(executable_object, finstrument_file):
-    # color table
     # SymbolTable.dump(executable_object)
     table = SymbolTable()
     # table.pretty_print()
@@ -17,6 +16,7 @@ def main(executable_object, finstrument_file):
 
 
 if __name__ == '__main__':
+    print('I am called.')
     # Expects two files: executable file and finstrument.txt
     # if len(sys.argv) != 3:
     #     print('Usage: ./main.py a.out finstrument.txt')
