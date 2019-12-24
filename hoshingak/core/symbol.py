@@ -21,6 +21,9 @@ class Symbol:
         self.name = tokens[5]
         self.call_count = 0
 
+    def __repr__(self):
+        return f'{self.prefix}/{self.name}'
+
     def __str__(self):
         return f'{self.prefix}/{self.name}'
 
@@ -48,6 +51,9 @@ class SymbolTable(MutableMapping):
             self.read_symbol_table(symbol_file)
 
         self.update(dict(*args, **kwargs))
+
+    def __repr__(self):
+        return f'<SymbolTable> (loaded: {len(self)}) at {hex(id(self))}'
 
     def __getitem__(self, k: int) -> Symbol:
         return self._name_table[k]
